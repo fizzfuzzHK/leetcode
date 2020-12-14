@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 
-
 class MyCircularQueue {
     std::vector<int> data;
     int head;
