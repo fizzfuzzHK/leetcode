@@ -3,13 +3,23 @@
 
 
 class MyCircularQueue {
-private:
     int head;
-    vector<int> data;
+    std::vector<int> data;
     int tail;
+    // current size
+    int cs;
+
+    // max size
+    int ms;
+
 public:
     MyCircularQueue(int k) {
-        data = vector<int>(k,0);
+        
+        data = std::vector<int>(k,0);
+        head = 0;
+        tail = k-1;
+        cs = 0;
+        ms = k;
     }
     
     bool enQueue(int value) {
@@ -18,12 +28,9 @@ public:
         }
         
         else{
-            if(tail == data.size()){
-                tail = 0;
-                data.push_back(value);
-                return true;
-            }
-            data.push_back(value);
+            tail = (tail+1)%ms;
+            data[tail] = value;
+            cs++;
             return true;
         }
     }
@@ -33,31 +40,53 @@ public:
             return false;
         }
         else{
-            if(head == data.size()){
-            head = 0;
-            return true;
-            }
-            head++;
+            head = (head+1)%ms;
+            cs--;
             return true;
         }
     }
     
     int Front() {
+        if(isEmpty()){
+            return -1;
+        }
         return data[head];
     }
     
     int Rear() {
+         if(isEmpty()){
+            return -1;
+         }
         return data[tail];
     }
     
     bool isEmpty() {
-        return head == tail;
+        return (cs == 0);
     }
     
     bool isFull() {
-        if(tail == data.size()){
-            return head == 0;
-        }
-        return head == tail-1;
+        return (cs == ms);
     }
 };
+
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue* obj = new MyCircularQueue(k);
+ * bool param_1 = obj->enQueue(value);
+ * bool param_2 = obj->deQueue();
+ * int param_3 = obj->Front();
+ * int param_4 = obj->Rear();
+ * bool param_5 = obj->isEmpty();
+ * bool param_6 = obj->isFull();
+ */
+int main(void){
+    // Your code here!
+    // MyCircularQueue q(5);
+    // std::cout << q.Front() << std::endl;
+    // q.enQueue(5);
+    // q.enQueue(3);
+    // if (!q.isEmpty()) {
+    //     std::cout << q.Front() << std::endl;
+    // }
+   
+}
